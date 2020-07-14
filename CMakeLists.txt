@@ -5,7 +5,7 @@ find_package(OpenCV QUIET)
 
 include_directories(.)
 aux_source_directory(common COMMON_SRC)
-set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c)
+set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c tag36h11.c tagStandard41h12.c)
 
 set(CMAKE_BUILD_TYPE Release)
 
