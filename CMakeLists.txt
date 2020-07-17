@@ -105,12 +105,12 @@ if (BUILD_APRIL_TAG_EXAMPLES )
     # Examples
     # apriltag_demo
     add_executable(apriltag_demo example/apriltag_demo.c)
-    target_link_libraries(apriltag_demo apriltag)
+    target_link_libraries(apriltag_demo ${PROJECT_NAME})
 
     # opencv_demo
     if(OpenCV_FOUND)
         add_executable(opencv_demo example/opencv_demo.cc)
-        target_link_libraries(opencv_demo apriltag ${OpenCV_LIBRARIES})
+        target_link_libraries(opencv_demo ${PROJECT_NAME} ${OpenCV_LIBRARIES})
         set_target_properties(opencv_demo PROPERTIES CXX_STANDARD 11)
         install(TARGETS opencv_demo RUNTIME DESTINATION bin)
     endif(OpenCV_FOUND)
