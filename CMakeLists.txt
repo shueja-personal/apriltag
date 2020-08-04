@@ -60,7 +60,7 @@ install(EXPORT apriltagTargets
     DESTINATION share/apriltag/cmake
 )
 install(FILES CMake/apriltagConfig.cmake DESTINATION share/apriltag/cmake)
-export(TARGETS apriltag
+export(TARGETS apriltags
     NAMESPACE apriltag::
     FILE apriltagTargets.cmake)
 
