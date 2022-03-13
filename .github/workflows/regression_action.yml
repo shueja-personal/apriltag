@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-on: [push]
+name: Regression Test
+on: [push, pull_request]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -14,5 +14,9 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Configure cmake
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Compile
+        run: cmake --build build --target install
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
