@@ -1,7 +1,7 @@
 name: Regression Test
 on: [push, pull_request]
 jobs:
-  Explore-GitHub-Actions:
+  Regression-Test:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -17,6 +17,6 @@ jobs:
       - name: Configure cmake
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release
       - name: Compile
-        run: cmake --build build --target install
+        run: cmake --build build
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
