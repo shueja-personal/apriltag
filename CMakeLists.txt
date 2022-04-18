@@ -15,7 +15,7 @@ option (BUILD_APRIL_TAG_EXAMPLES "Build the example programs." YES)
 # Library
 file(GLOB TAG_FILES ${CMAKE_SOURCE_DIR}/tag*.c)
 set_source_files_properties(SOURCE ${TAG_FILES} PROPERTIES COMPILE_FLAGS -O0)
-add_library(${PROJECT_NAME} ${APRILTAG_SRCS} ${COMMON_SRC} ${TAG_FILES})
+add_library(${PROJECT_NAME} SHARED ${APRILTAG_SRCS} ${COMMON_SRC} ${TAG_FILES})
 if (MSVC)
     # FindThreads will not find pthread.h with MSVC
     # winmm is necessary for __imp_timeGetTime
@@ -116,7 +116,7 @@ if (USE_APRIL_TAGS_PYTHON_WRAPPER)
     endif (NOT Python3_NOT_FOUND AND NOT Numpy_NOT_FOUND AND PYTHONLIBS_FOUND)
 endif (USE_APRIL_TAGS_PYTHON_WRAPPER)
 
-if (BUILD_APRIL_TAG_EXAMPLES )
+if (false)
     # Examples
     # apriltag_demo
     add_executable(apriltag_demo example/apriltag_demo.c)

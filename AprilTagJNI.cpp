@@ -69,6 +69,7 @@ extern "C"
 
     env->ReleaseStringUTFChars(jstr, famname);
 
+    printf("Created detector at %llu\n", td);
     return (jlong)td;
   }
 
@@ -200,35 +201,45 @@ extern "C"
                                                                                                     jint rows, jint cols)
   {
     // Make an image_u8_t header for the Mat data
-    image_u8_t im = {.width = cols,
-                     .height = rows,
-                     .stride = cols,
-                     .buf = (uint8_t *)pData};
+    image_u8_t im = {(int32_t)cols,
+                     (int32_t)rows,
+                     (int32_t)cols,
+                     (uint8_t *)pData};
 
     // Get our detector
     apriltag_detector_t *td = (apriltag_detector_t *)detector;
 
+    printf("Running detector, detector = %llu td = %llu\n", detector, (long long unsigned) td);
+
     // And run the detector on our new image
     zarray_t *detections = apriltag_detector_detect(td, &im);
+    printf("Ran\n");
     int size = zarray_size(detections);
 
     // Object array to return to Java
     jobjectArray jarr = env->NewObjectArray(size, detectionClass, nullptr);
     if (!jarr)
     {
+      printf("Couldn't make array\n");
       return nullptr;
     }
 
+    printf("Created array %llu! Got %i targets!\n", &jarr, size);
     // Add our detected targets to the array
     for (size_t i = 0; i < size; ++i)
     {
       apriltag_detection_t *det;
       zarray_get(detections, i, &det);
+      printf("Got %i\n", det);
 
-      if(det != nullptr)
-        env->SetObjectArrayElement(jarr, i, MakeJObject(env, det));
+      if(det != nullptr) {
+        jobject obj = MakeJObject(env, det);
+        env->SetObjectArrayElement(jarr, i, obj);
+        printf("Set element of array %i and idx %i to %i\n", &jarr, i, obj);
+      }
     }
 
+    printf("Returning %i\n", jarr);
     return jarr;
   }
 }
