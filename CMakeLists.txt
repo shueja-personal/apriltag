@@ -37,7 +37,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 aux_source_directory(common COMMON_SRC)
-set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c)
+set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c AprilTagJNI.cpp)
 
 # Library
 file(GLOB TAG_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tag*.c)
@@ -53,6 +53,12 @@ else()
     target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads m)
 endif()
 
+find_package(JNI)
+if (JNI_FOUND)
+    message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
+    message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
+endif()
+
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 3 VERSION ${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
@@ -60,7 +66,8 @@ include(GNUInstallDirs)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>/apriltag")
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>/apriltag"
+    "${JNI_INCLUDE_DIRS}")
 
 
 # install header file hierarchy
@@ -123,7 +130,7 @@ install(FILES "${PROJECT_BINARY_DIR}/apriltag.pc" DESTINATION "${CMAKE_INSTALL_L
 
 # Python wrapper
 include(CMakeDependentOption)
-cmake_dependent_option(BUILD_PYTHON_WRAPPER "Builds Python wrapper" ON BUILD_SHARED_LIBS OFF)
+cmake_dependent_option(BUILD_PYTHON_WRAPPER "Builds Python wrapper" OFF BUILD_SHARED_LIBS OFF)
 
 if(BUILD_PYTHON_WRAPPER)
     SET(Python_ADDITIONAL_VERSIONS 3)
