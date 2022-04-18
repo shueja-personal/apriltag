@@ -5,7 +5,7 @@ find_package(OpenCV QUIET)
 
 include_directories(.)
 aux_source_directory(common COMMON_SRC)
-set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c tagStandard41h12.c tag16h5.c tag25h9.c tag36h11.c tagCircle21h7.c tagCircle49h12.c tagCustom48h12.c tagStandard52h13.c)
+set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c tagStandard41h12.c tag16h5.c tag25h9.c tag36h11.c tagCircle21h7.c tagCircle49h12.c tagCustom48h12.c tagStandard52h13.c AprilTagJNI.cpp)
 
 set(CMAKE_BUILD_TYPE Release)
 
@@ -28,11 +28,21 @@ endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 3 VERSION 3.1.0)
 
+find_package(JNI)
+if (JNI_FOUND)
+    message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
+    message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
+endif()
+
+# set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION 3 VERSION ${PROJECT_VERSION})
+# set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
+
 #include(GNUInstallDirs)
 target_include_directories(${PROJECT_NAME} PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/common>"
-    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>/apriltag")
+    "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>/apriltag"
+    "${JNI_INCLUDE_DIRS}")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_LIBDIR}
