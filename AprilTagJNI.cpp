@@ -69,7 +69,7 @@ extern "C"
 
     env->ReleaseStringUTFChars(jstr, famname);
 
-    return (long)td;
+    return (jlong)td;
   }
 
 #define WPI_JNI_MAKEJARRAY(T, F)                                     \
