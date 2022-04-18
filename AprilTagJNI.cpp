@@ -189,9 +189,12 @@ extern "C"
         (jint)detect->id, (jint)detect->hamming, (jfloat)detect->decision_margin,
         harr, (jdouble)detect->c[0], (jdouble)detect->c[1], carr);
 
-    // I think this prevents us from leaking new double arrays every time
-    env->ReleaseDoubleArrayElements(harr, h, 0);
-    env->ReleaseDoubleArrayElements(carr, corners, 0);
+
+    // // I think this prevents us from leaking new double arrays every time
+    // env->ReleaseDoubleArrayElements(harr, h, 0);
+    // env->ReleaseDoubleArrayElements(carr, corners, 0);
+
+    // return nullptr;
 
     return ret;
   }
@@ -209,7 +212,7 @@ extern "C"
     // Get our detector
     apriltag_detector_t *td = (apriltag_detector_t *)detector;
 
-    printf("Running detector, detector = %llu td = %llu\n", detector, (long long unsigned) td);
+    printf("Running detector, detector = %llu td = %llu env = %llu\n", detector, (long long unsigned) td, env);
 
     // And run the detector on our new image
     zarray_t *detections = apriltag_detector_detect(td, &im);
@@ -235,7 +238,7 @@ extern "C"
       if(det != nullptr) {
         jobject obj = MakeJObject(env, det);
         env->SetObjectArrayElement(jarr, i, obj);
-        printf("Set element of array %i and idx %i to %i\n", &jarr, i, obj);
+        // printf("Set element of array %i and idx %i to %i\n", &jarr, i, obj);
       }
     }
 
