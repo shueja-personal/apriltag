@@ -8,6 +8,7 @@ aux_source_directory(common COMMON_SRC)
 set(APRILTAG_SRCS apriltag.c apriltag_pose.c apriltag_quad_thresh.c tagStandard41h12.c tag16h5.c tag25h9.c tag36h11.c tagCircle21h7.c tagCircle49h12.c tagCustom48h12.c tagStandard52h13.c AprilTagJNI.cpp)
 
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 option (BUILD_APRIL_TAGS_PYTHON_WRAPPER "Build the python wrappers." YES)
 option (BUILD_APRIL_TAG_EXAMPLES "Build the example programs." YES)
@@ -116,7 +117,7 @@ if (USE_APRIL_TAGS_PYTHON_WRAPPER)
     endif (NOT Python3_NOT_FOUND AND NOT Numpy_NOT_FOUND AND PYTHONLIBS_FOUND)
 endif (USE_APRIL_TAGS_PYTHON_WRAPPER)
 
-if (false)
+if (BUILD_APRIL_TAG_EXAMPLES)
     # Examples
     # apriltag_demo
     add_executable(apriltag_demo example/apriltag_demo.c)
