@@ -990,7 +990,7 @@ int prefer_smaller(int pref, double q0, double q1)
 
 zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
 {
-    printf("Pre-create: td %llu img %llu\n", td, im_orig);
+    //printf("Pre-create: td %llu img %llu\n", td, im_orig);
     if (zarray_size(td->tag_families) == 0) {
         zarray_t *s = zarray_create(sizeof(apriltag_detection_t*));
         printf("apriltag.c: No tag families enabled.");
@@ -998,7 +998,7 @@ zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
     }
 
 
-    printf("Create\n");
+    //printf("Create\n");
 
     if (td->wp == NULL || td->nthreads != workerpool_get_nthreads(td->wp)) {
         workerpool_destroy(td->wp);
@@ -1008,7 +1008,7 @@ zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
     timeprofile_clear(td->tp);
     timeprofile_stamp(td->tp, "init");
 
-    printf("Init\n");
+    //printf("Init\n");
 
     ///////////////////////////////////////////////////////////
     // Step 1. Detect quads according to requested image decimation
@@ -1019,7 +1019,7 @@ zarray_t *apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig)
 
         timeprofile_stamp(td->tp, "decimate");
     }
-    printf("Decimate\n");
+    //printf("Decimate\n");
 
     if (td->quad_sigma != 0) {
         // compute a reasonable kernel width by figuring that the

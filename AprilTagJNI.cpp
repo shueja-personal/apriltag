@@ -212,11 +212,11 @@ extern "C"
     // Get our detector
     apriltag_detector_t *td = (apriltag_detector_t *)detector;
 
-    printf("Running detector, detector = %llu td = %llu env = %llu\n", detector, (long long unsigned) td, env);
+    //printf("Running detector, detector = %llu td = %llu env = %llu\n", detector, (long long unsigned) td, env);
 
     // And run the detector on our new image
     zarray_t *detections = apriltag_detector_detect(td, &im);
-    printf("Ran\n");
+    //printf("Ran\n");
     int size = zarray_size(detections);
 
     // Object array to return to Java
@@ -227,13 +227,13 @@ extern "C"
       return nullptr;
     }
 
-    printf("Created array %llu! Got %i targets!\n", &jarr, size);
+    //printf("Created array %llu! Got %i targets!\n", &jarr, size);
     // Add our detected targets to the array
     for (size_t i = 0; i < size; ++i)
     {
       apriltag_detection_t *det;
       zarray_get(detections, i, &det);
-      printf("Got %i\n", det);
+      //printf("Got %i\n", det);
 
       if(det != nullptr) {
         jobject obj = MakeJObject(env, det);
@@ -242,7 +242,7 @@ extern "C"
       }
     }
 
-    printf("Returning %i\n", jarr);
+    //printf("Returning %i\n", jarr);
     return jarr;
   }
 }
